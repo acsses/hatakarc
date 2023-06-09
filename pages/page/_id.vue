@@ -1,9 +1,5 @@
 <template>
   <div id="page_index">
-    <nav>
-      <a href="/">Home</a>|
-      <nuxt-link to="/about">About</nuxt-link>
-    </nav>
     <div id="page"> 
       <img v-bind:src="cover" alt="" class="head_img"/>
       <h1 class="title">{{ title }}</h1>
@@ -43,8 +39,9 @@ import { VueMathjax } from "vue-mathjax";
 export default {
   name:"page",
   components: {
-    "vue-mathjax": VueMathjax
+    "vue-mathjax": VueMathjax,
   },
+  props: ['mode'],
   data(){
     return {
       propaty:{},
@@ -61,6 +58,7 @@ export default {
     this.date = res_propaty.data.properties.Date.date.start
     var res_content = await this.$axios.get(`${location.origin}/api/page/content/${this.$route.params.id}`);
     this.contents = res_content.data.results
+    console.log(this.$route.params)
   },
   head() {
     return {
@@ -71,7 +69,7 @@ export default {
         }
       ]
     };
-  },
+  }
 }
 </script>
 <style scoped>
@@ -101,6 +99,7 @@ nav a:visited{
 #page{
     width: 70%;
     margin: auto;
+    margin-bottom: 50px;
 }
 .head_img{
     width: 100%;
@@ -133,5 +132,56 @@ nav a:visited{
 }
 .content li{
     text-align: left;
+}
+#toggle_footer{
+  display: flex;
+  justify-content: center;
+}
+.toggle {
+  position: relative;
+  width: 55px;
+  height: 24px;
+  margin: auto;
+  margin-right: 5px;
+  margin-left: 10px;
+  border-radius: 25px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.toggle input[type=checkbox] {
+  display: none;
+}
+.toggle:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: #C4C4C5;
+  -webkit-transition: 0.2s ease-out;
+  transition: 0.2s ease-out;
+}
+.toggle:after {
+  content: "";
+  position: absolute;
+  top: 1.5px;
+  left: 1.5px;
+  width: 21px;
+  height: 21px;
+  display: block;
+  border-radius: 25px;
+  background: #fff;
+  box-shadow: 0 4.5px 14px -3px rgba(0, 0, 0, 0.3);
+  -webkit-transition: 0.2s ease-out;
+  transition: 0.2s ease-out;
+}
+.toggle.checked:before {
+  background: #35c759;
+}
+.toggle.checked:after {
+  left: 33px;
+  box-shadow: 0 4.5px 14px -3px rgba(0, 0, 0, 0.5);
 }
 </style>

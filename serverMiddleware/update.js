@@ -13,8 +13,21 @@ app.get('/page/content/:id', async (req, res) => {
     }
 )
 app.get('/page/property/:id', async (req, res) => {
-    const data = await notion.pages.retrieve({
-        page_id: req.params.id,
+        const data = await notion.pages.retrieve({
+            page_id: req.params.id,
+        })
+        res.status(200).json(data);
+    }
+)
+app.get('/serch/:word', async (req, res) => {
+    const data = await notion.databases.query({
+      database_id: "08c5dea32e0b4f468a98bd419bc54aaa",
+      filter: {
+        property: "Tag",
+        multi_select: {
+          contains: req.params.word,
+        },
+      },
     })
     res.status(200).json(data);
 }

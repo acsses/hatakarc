@@ -1,23 +1,19 @@
 <template>
   <div id="index">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
     <div id="introduce">
 
     </div>
     <div class="home">
     <div v-for="page in results" :key="page.id" class="page_block" @click="link(page.id)">
       <img v-bind:src="page.cover.external.url" alt="">
-      <div>
+      <h3>
         {{ page.properties.Name.title[0].plain_text }}
-      </div>
+      </h3>
       <p>
         {{ page.properties.Date.date.start }}
       </p>
       <div class="tag_space">
-        <p v-for="tag in page.properties.Tag.multi_select" :key="tag.id" class="tag">
+        <p v-for="tag in page.properties.Tag.multi_select" :key="tag.id" class="tag" >
           {{ tag.name }}
         </p>
       </div>
@@ -31,6 +27,7 @@ import { Client } from '@notionhq/client';
 const notion = new Client({auth: 'secret_voHoNdOnBI9Cc3dfRsrLwDzTm3yLygIV8bjfYUrasRs'});
 
 export default {
+  layout: 'default',
   async asyncData() {
     try{
       const page = await notion.databases.query({
@@ -51,6 +48,7 @@ export default {
 <style scoped>
 #index{
   width: 100vw;
+  min-height: 100vh;
   margin: auto;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -58,20 +56,7 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
-#index nav{
-  width: 100vw;
-  padding: 30px;
-  display: flex;
-  justify-content: center;
-  box-sizing: border-box;
-}
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-nav a:visited{
-  color: #42b983;
-}
+
 #introduce{
   width: 70vw;
 }
@@ -85,10 +70,11 @@ nav a:visited{
 .page_block{
   width: 90%;
   margin: auto;
-  height: 35vh;
+  height: 37vh;
   position: relative;
   box-shadow: 0 0 8px gray;
   border-radius: 5px;
+  transition: 0.25s;
 }
 .page_block img{
   height: 14vh;
@@ -111,8 +97,9 @@ nav a:visited{
 .tag{
   margin: auto;
   width: fit-content;
-  background-color: blue;
-  color: white;
+  border: 1px solid  #42b983;
+  background-color: transparent;
+  color: #42b983;
   padding: 5px;
   border-radius: 5px;
   transition: 0.25s;
@@ -120,10 +107,17 @@ nav a:visited{
 .tag:hover{
   margin: auto;
   width: fit-content;
-  border: 1px solid  blue;
-  background-color: white;
-  color: blue;
+  background-color: #42b983;
+  color: white;
   padding: 5px;
+  border-radius: 5px;
+}
+.page_block:hover{
+  width: 90%;
+  margin: auto;
+  height: 37vh;
+  position: relative;
+  box-shadow: 0 0 0.5px gray;
   border-radius: 5px;
 }
 </style>
