@@ -1,7 +1,9 @@
 <template>
   <div id="index">
     <div id="introduce">
-
+      <h1>hatakarc</h1>
+      <p> &lt hataka run command /&gt </p>
+      <p> &lt What I did or think /&gt </p>
     </div>
     <div class="home">
     <div v-for="page in results" :key="page.id" class="page_block" @click="link(page.id)">
@@ -23,20 +25,16 @@
 </template>
 
 <script>
-import { Client } from '@notionhq/client';
-const notion = new Client({auth: 'secret_voHoNdOnBI9Cc3dfRsrLwDzTm3yLygIV8bjfYUrasRs'});
-
 export default {
   layout: 'default',
-  async asyncData() {
-    try{
-      const page = await notion.databases.query({
-        database_id: "08c5dea32e0b4f468a98bd419bc54aaa",
-      })
-      return page
-    }catch(e){
-      location.reload();
+  data(){
+    return{
+      results:[]
     }
+  },
+  async mounted(){
+    var res = await this.$axios.get(`${location.origin}/api/database`);
+    this.results=res.data.results
   },
   methods:{
     link(id){
@@ -46,19 +44,26 @@ export default {
 }
 </script>
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
+
 #index{
   width: 100vw;
   min-height: 100vh;
   margin: auto;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
 }
 
 #introduce{
   width: 70vw;
+  padding-top: 60px;
+  margin-bottom: 10px;
+}
+#introduce p{
+  font-family: 'Source Code Pro', monospace;
+
+}
+.dark #introduce {
+  width: 70vw;
+  color: white;
 }
 .home{
   width: 50vw;
@@ -75,6 +80,9 @@ export default {
   box-shadow: 0 0 8px gray;
   border-radius: 5px;
   transition: 0.25s;
+}
+#introduce{
+  margin: auto;
 }
 .page_block img{
   height: 14vh;
@@ -124,5 +132,12 @@ export default {
 <style>
 body{
   margin: 0;
+}
+.dark .page_block h3{
+  color: white;
+}
+
+.dark .page_block p:not(.tag){
+  color: white;
 }
 </style>

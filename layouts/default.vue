@@ -1,10 +1,10 @@
 <template>
-  <div id="layout">
+  <div id="layout" :class="{ dark : isActive }">
     <nav>
-      <nuxt-link to="/">Home</nuxt-link> |
+      <nuxt-link to="/" class="home_link">hatakarch</nuxt-link>
       <nuxt-link to="/about">About</nuxt-link>
     </nav>
-    <Nuxt />
+    <Nuxt/>
     <footer>
       <div id="light_and_dark">
         <lightmode/>
@@ -28,7 +28,6 @@ export default {
     darkmode,
     lightmode
   },
-  props: ['mode'],
   data(){
     return {
       isActive:false
@@ -43,27 +42,48 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@100&display=swap');
 #layout{
   margin: auto;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Zen Maru Gothic', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
 }
 nav{
+  position: fixed;
   width: 100vw;
-  padding: 30px;
+  padding: 15px;
   display: flex;
-  justify-content: center;
+  justify-content: left;
   box-sizing: border-box;
+  backdrop-filter: blur(5px);
 }
 nav a {
   font-weight: bold;
   color: #2c3e50;
+  text-decoration: none;
+  margin: 5px;
+  font-family: 'M PLUS 1p', sans-serif;
+}
+.dark nav a {
+  font-weight: bold;
+  color: white;
 }
 nav a:visited{
   color: #42b983;
+  font-weight: bold;
+}
+nav a.home_link {
+  color: #2c3e50;
+  margin: 5px;
+}
+.dark a.home_link {
+  color: white;
+  margin: 5px;
 }
 footer{
   width:100vw
@@ -119,5 +139,22 @@ footer{
 .toggle.checked:after {
   left: 33px;
   box-shadow: 0 4.5px 14px -3px rgba(0, 0, 0, 0.5);
+}
+footer p{
+  margin: auto;
+  margin-bottom: 0;
+  padding: 16px;
+}
+.dark{
+  background-color: #353B41;
+}
+.dark footer p{
+  color: white;
+}
+.dark svg{
+  fill: white;
+}
+body{
+  margin: 0;
 }
 </style>

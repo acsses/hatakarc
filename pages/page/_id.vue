@@ -1,10 +1,15 @@
 <template>
   <div id="page_index">
     <div id="page"> 
+      <div class="margin"></div>
       <img v-bind:src="cover" alt="" class="head_img"/>
       <h1 class="title">{{ title }}</h1>
       <div class="propaty">
-          <p>はたか</p>
+          <div class="tags">
+            <nuxt-link :to="'/serch/'+tag.name" v-for="tag in tags" :key="tag.id" class="tag" >
+              {{ tag.name }}
+            </nuxt-link>
+          </div>
           <p>{{ date }}</p>
       </div>
       <div class="content">
@@ -15,14 +20,32 @@
           <div v-else-if="content.type=='heading_2'">
               <h3>{{ content.heading_2.rich_text[0].text.content }}</h3>
           </div>
-          <div v-else-if="content.type=='paragraph'">
-              <p v-if="content.paragraph.rich_text.length!=0">{{ content.paragraph.rich_text[0].text.content }}</p>
+          <div v-else-if="content.type=='paragraph'" class="outer">
+            <p>
+              <template v-for="text in content.paragraph.rich_text">
+                <span v-if="text.type=='text'" :class="text.annotations">
+                  {{ text.text.content }}
+                </span>
+                <span v-else-if="text.type=='equation'">
+                  <vue-mathjax :formula="'$'+text.equation.expression+'$'"></vue-mathjax>
+                </span>
+              </template>
+            </p>
           </div>
           <div v-else-if="content.type=='bulleted_list_item'">
               <li>{{ content.bulleted_list_item.rich_text[0].text.content }}</li>
           </div>
           <div v-else-if="content.type=='equation'">
             <vue-mathjax :formula="'$$'+content.equation.expression+'$$'"></vue-mathjax>
+          </div>
+          <pre v-highlightjs v-else-if="content.type=='code'"><code :class="content.code.language">{{ content.code.rich_text[0].text.content }}</code></pre>
+          <div v-else-if="content.type=='quote'">
+            <blockquote>
+              <p>{{ content.quote.rich_text[0].text.content }}</p>
+            </blockquote>
+          </div>
+          <div v-else-if="content.type=='image'">
+            <img :src="content.image.file.url" alt="">
           </div>
           <div v-else>
               {{ content.type }}
@@ -41,10 +64,9 @@ export default {
   components: {
     "vue-mathjax": VueMathjax,
   },
-  props: ['mode'],
   data(){
     return {
-      propaty:{},
+      tags:{},
       contents:[],
       cover:"",
       date:"",
@@ -56,17 +78,22 @@ export default {
     this.cover = res_propaty.data.cover.external.url
     this.title = res_propaty.data.properties.Name.title[0].plain_text
     this.date = res_propaty.data.properties.Date.date.start
+    this.tags = res_propaty.data.properties.Tag.multi_select
     var res_content = await this.$axios.get(`${location.origin}/api/page/content/${this.$route.params.id}`);
     this.contents = res_content.data.results
-    console.log(this.$route.params)
   },
   head() {
     return {
       script: [
         {
           src:
-            "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_SVG"
+            "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"
         }
+      ],
+      link: [
+        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+        { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
+        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,500;1,500&display=swap' }
       ]
     };
   }
@@ -76,11 +103,6 @@ export default {
 #page_index{
   width: 100vw;
   margin: auto;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
 }
 #page_index nav{
   width: 100vw;
@@ -99,7 +121,10 @@ nav a:visited{
 #page{
     width: 70%;
     margin: auto;
-    margin-bottom: 50px;
+    margin-bottom: 25vh;
+}
+#page .margin{
+  padding-top: 80px;
 }
 .head_img{
     width: 100%;
@@ -108,12 +133,36 @@ nav a:visited{
 }
 .propaty{
     width: 100%;
-    display: flex;
     justify-content: center;
 }
 .propaty p{
     margin-right: 5px;
     margin-left: 5px;
+}
+.tags{
+  width: fit-content;
+  margin: auto;
+  display: flex;
+}
+.tag{
+  margin: auto;
+  width: fit-content;
+  border: 1px solid  #42b983;
+  background-color: transparent;
+  color: #42b983;
+  padding: 5px;
+  border-radius: 5px;
+  transition: 0.25s;
+  text-decoration: none;
+}
+.tag:hover{
+  margin: auto;
+  width: fit-content;
+  background-color: #42b983;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  text-decoration: none;
 }
 .content{
     width: 70%;
@@ -124,64 +173,86 @@ nav a:visited{
 .content h2{
     text-align: left;
 }
+.content .bold{
+  font-weight: bold;
+}
 .content h3{
     text-align: left;
 }
 .content p{
     text-align: left;
 }
+
 .content li{
     text-align: left;
 }
-#toggle_footer{
-  display: flex;
-  justify-content: center;
+.content code{
+  text-align:left;
+  display: inline-block;
+  width: 70%;
+  font-family: 'Source Code Pro', monospace;
+  padding: 10px;
+  border: #C4C4C5 1px solid;
+  border-radius: 5px;
+  overflow-x: scroll;
 }
-.toggle {
-  position: relative;
-  width: 55px;
-  height: 24px;
-  margin: auto;
-  margin-right: 5px;
-  margin-left: 10px;
-  border-radius: 25px;
-  overflow: hidden;
-  cursor: pointer;
+.content code span{
+  text-align:left;
+  display: inline-block;
+  font-family: 'Source Code Pro', monospace;
 }
-.toggle input[type=checkbox] {
-  display: none;
+.content blockquote{
+  padding-left: 10px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  border-left: gray 2px solid;
 }
-.toggle:before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
-  background: #C4C4C5;
-  -webkit-transition: 0.2s ease-out;
-  transition: 0.2s ease-out;
+.content blockquote p{
+  margin: 0;
 }
-.toggle:after {
-  content: "";
-  position: absolute;
-  top: 1.5px;
-  left: 1.5px;
-  width: 21px;
-  height: 21px;
-  display: block;
-  border-radius: 25px;
-  background: #fff;
-  box-shadow: 0 4.5px 14px -3px rgba(0, 0, 0, 0.3);
-  -webkit-transition: 0.2s ease-out;
-  transition: 0.2s ease-out;
+.content img{
+  width: 70%;
 }
-.toggle.checked:before {
-  background: #35c759;
+.dark h1{
+  color: white;
 }
-.toggle.checked:after {
-  left: 33px;
-  box-shadow: 0 4.5px 14px -3px rgba(0, 0, 0, 0.5);
+.dark h2{
+  color: white;
+}
+.dark h3{
+  color: white;
+}
+.dark li{
+  color: white;
+}
+.dark p{
+  color: white;
+}
+</style>
+<style>
+.dark .mjx-char{
+  color: white;
+}
+span.hljs-number{
+  color: #9B5FD3;
+}
+span.hljs-keyword{
+  color: #FF006B;
+}
+span.hljs-title {
+  color: #5EA405;
+}
+span.hljs-string{
+  color: #FFB05E;
+}
+.dark span.hljs-string{
+  color: #E6E05F;
+}
+.dark span.hljs-title {
+  color: #86D705;
+}
+.dark .content code{
+  color: #ECEDED;
+  border: gray 1px solid;
 }
 </style>
