@@ -36,7 +36,7 @@ export default {
     }
   },
   async mounted(){
-    var res = await this.$axios.get(`${location.origin}/api/database`);
+    var res = await this.$axios.get("https://notion-acsses.vercel.app/database/");
     this.results=res.data.results
     this.loading=false
   },
