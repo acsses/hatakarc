@@ -103,7 +103,7 @@ export default {
       meta: [
         { name: 'twitter:card', content: 'Summary_large_image'},
         { name: 'twitter:site', content: '@hataka799288335'},
-        { name: 'twitter:title', content: thi.title},
+        { name: 'twitter:title', content: this.title},
         { name: 'twitter:description', content: ''},
         { name: 'twitter:image', content: this.cover}
       ]
