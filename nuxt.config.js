@@ -1,12 +1,11 @@
 import { sortRoutes } from '@nuxt/utils'
 
 export default {
-  mode:"ssr",
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'blog',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'js'
     },
     meta: [
       { charset: 'utf-8' },
