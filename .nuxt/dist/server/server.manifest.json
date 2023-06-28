@@ -1,0 +1,19 @@
+{
+  "entry": "server.js",
+  "files": {
+    "components/loading-animation.js": "components/loading-animation.js",
+    "components/tutorial.js": "components/tutorial.js",
+    "pages/index.js": "pages/index.js",
+    "pages/page/_id.js": "pages/page/_id.js",
+    "pages/serch/_word.js": "pages/serch/_word.js",
+    "server.js": "server.js"
+  },
+  "maps": {
+    "components/loading-animation.js": "components/loading-animation.js.map",
+    "components/tutorial.js": "components/tutorial.js.map",
+    "pages/index.js": "pages/index.js.map",
+    "pages/page/_id.js": "pages/page/_id.js.map",
+    "pages/serch/_word.js": "pages/serch/_word.js.map",
+    "server.js": "server.js.map"
+  }
+}

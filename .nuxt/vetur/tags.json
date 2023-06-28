@@ -1,0 +1,14 @@
+{
+  "LoadingAnimation": {
+    "description": "Auto imported from components/LoadingAnimation.vue"
+  },
+  "Tutorial": {
+    "description": "Auto imported from components/Tutorial.vue"
+  },
+  "DarkModeIcon": {
+    "description": "Auto imported from components/dark_mode_icon.vue"
+  },
+  "LightModeIcon": {
+    "description": "Auto imported from components/light_mode_icon.vue"
+  }
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "name": "page-id",
+    "path": "/page/:id?",
+    "component": "/Users/takabatomoki/Desktop/blog_nuxt/blog/pages/page/_id.vue",
+    "chunkName": "pages/page/_id"
+  },
+  {
+    "name": "serch-word",
+    "path": "/serch/:word?",
+    "component": "/Users/takabatomoki/Desktop/blog_nuxt/blog/pages/serch/_word.vue",
+    "chunkName": "pages/serch/_word"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "/Users/takabatomoki/Desktop/blog_nuxt/blog/pages/index.vue",
+    "chunkName": "pages/index"
+  }
+]
