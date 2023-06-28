@@ -1,5 +1,6 @@
 <template>
   <div id="index">
+    <LoadingAnimation v-show="loading"/>
     <div id="introduce">
       <h1>hatakarc</h1>
       <p> &lt hataka run command /&gt </p>
@@ -25,21 +26,32 @@
 </template>
 
 <script>
+import LoadingAnimation from '../components/LoadingAnimation.vue';
 export default {
   layout: 'default',
   data(){
     return{
+      loading:true,
       results:[]
     }
   },
   async mounted(){
     var res = await this.$axios.get(`${location.origin}/api/database`);
     this.results=res.data.results
+    this.loading=false
+  },
+  head(){
+    return {
+      title:"hatkarc",
+    }
   },
   methods:{
     link(id){
       this.$router.push('/page/'+id)
     }
+  },
+  components:{
+    LoadingAnimation
   }
 }
 </script>
@@ -70,12 +82,11 @@ export default {
   margin:auto;
   display: grid;
   grid-template-columns: 50% 50%;
-  
 }
 .page_block{
   width: 90%;
   margin: auto;
-  height: 37vh;
+  height: calc(14vh + 27px + 20px + 20px + 90px );
   position: relative;
   box-shadow: 0 0 8px gray;
   border-radius: 5px;
@@ -123,10 +134,29 @@ export default {
 .page_block:hover{
   width: 90%;
   margin: auto;
-  height: 37vh;
+  height: calc(14vh + 27px + 20px + 20px + 90px );
   position: relative;
   box-shadow: 0 0 0.5px gray;
   border-radius: 5px;
+}
+@media screen and (max-width: 800px) {
+	.home{
+    width: 50vw;
+    margin:auto;
+    display: block;
+  }
+}
+@media screen and (max-width: 400px) {
+	.home{
+    width: 100vw;
+    margin:auto;
+    display: block;
+  }
+  #introduce{
+    width: 100vw;
+    padding-top: 60px;
+    margin-bottom: 10px;
+  }
 }
 </style>
 <style>

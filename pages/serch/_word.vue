@@ -1,5 +1,6 @@
 <template>
     <div id="page_index">
+        <LoadingAnimation v-show="loading"/>
         <div class="margin"></div>
         <div class="home">
             <div v-for="page in pages" :key="page.id" class="page_block" @click="link(page.id)">
@@ -21,17 +22,20 @@
   </template>
   
   <script>
-  
+  import LoadingAnimation from '../../components/LoadingAnimation.vue';
+
   export default {
     name:"page",
     data(){
       return {
+        loading:true,
         pages:[]
       }
     },
     async mounted(){
       var res = await this.$axios.get(`${location.origin}/api/serch/${this.$route.params.word}`);
       this.pages = res.data.results
+      this.loading = false
     },
     methods:{
       link(id){
@@ -66,7 +70,7 @@
     font-family: 'Zen Maru Gothic', sans-serif;
     width: 90%;
     margin: auto;
-    height: 37vh;
+    height: calc(14vh + 27px + 20px + 20px + 90px );
     position: relative;
     box-shadow: 0 0 8px gray;
     border-radius: 5px;
@@ -116,10 +120,24 @@
   .page_block:hover{
     width: 90%;
     margin: auto;
-    height: 37vh;
+    height: calc(14vh + 27px + 20px + 20px + 90px );
     position: relative;
     box-shadow: 0 0 0.5px gray;
     border-radius: 5px;
+  }
+  @media screen and (max-width: 800px) {
+  	.home{
+      width: 50vw;
+      margin:auto;
+      display: block;
+    }
+  }
+  @media screen and (max-width: 400px) {
+  	.home{
+      width: 100vw;
+      margin:auto;
+      display: block;
+    }
   }
 </style>
   

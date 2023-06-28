@@ -1,8 +1,8 @@
 <template>
   <div id="layout" :class="{ dark : isActive }">
     <nav>
-      <nuxt-link to="/" class="home_link">hatakarch</nuxt-link>
-      <nuxt-link to="/about">About</nuxt-link>
+      <nuxt-link to="/" class="home_link">hatakarc</nuxt-link>
+      <nuxt-link to="/page/86af06f8-4723-4857-bce3-ed6d02312cfa">About</nuxt-link>
     </nav>
     <Nuxt/>
     <footer>
@@ -33,6 +33,11 @@ export default {
       isActive:false
     }
   },
+  mounted(){
+    if(window.matchMedia('(prefers-color-scheme: dark)').matches == true){
+      this.isActive=true
+    }
+  },
   methods: {
     checked () {
       this.isActive = !this.isActive
@@ -61,6 +66,7 @@ nav{
   justify-content: left;
   box-sizing: border-box;
   backdrop-filter: blur(5px);
+  z-index: 10;
 }
 nav a {
   font-weight: bold;

@@ -1,5 +1,6 @@
 <template>
   <div id="page_index">
+    <LoadingAnimation v-show="loading"/>
     <div id="page"> 
       <div class="margin"></div>
       <img v-bind:src="cover" alt="" class="head_img"/>
@@ -58,6 +59,7 @@
 
 <script>
 import { VueMathjax } from "vue-mathjax";
+import LoadingAnimation from "../../components/LoadingAnimation.vue";
 
 export default {
   name:"page",
@@ -66,6 +68,7 @@ export default {
   },
   data(){
     return {
+      loading:true,
       tags:{},
       contents:[],
       cover:"",
@@ -81,9 +84,11 @@ export default {
     this.tags = res_propaty.data.properties.Tag.multi_select
     var res_content = await this.$axios.get(`${location.origin}/api/page/content/${this.$route.params.id}`);
     this.contents = res_content.data.results
+    this.loading=false
   },
   head() {
     return {
+      title:"hatkarc/"+this.title,
       script: [
         {
           src:
@@ -94,29 +99,23 @@ export default {
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
         { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,500;1,500&display=swap' }
+      ],
+      meta: [
+        { name: 'twitter:card', content: 'Summary_large_image'},
+        { name: 'twitter:site', content: '@hataka799288335'},
+        { name: 'twitter:title', content: thi.title},
+        { name: 'twitter:description', content: ''},
+        { name: 'twitter:image', content: this.cover}
       ]
     };
-  }
+  },
 }
 </script>
 <style scoped>
 #page_index{
   width: 100vw;
   margin: auto;
-}
-#page_index nav{
-  width: 100vw;
-  padding: 30px;
-  display: flex;
-  justify-content: center;
-  box-sizing: border-box;
-}
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-nav a:visited{
-  color: #42b983;
+  position: relative;
 }
 #page{
     width: 70%;
@@ -165,8 +164,6 @@ nav a:visited{
   text-decoration: none;
 }
 .content{
-    width: 70%;
-    margin:auto;
     width: 50vw;
     margin: auto;
 }
@@ -227,6 +224,32 @@ nav a:visited{
 }
 .dark p{
   color: white;
+}
+@media screen and (max-width: 800px) {
+	.content{
+    width: 70vw;
+    margin: auto;
+  }
+  .content img{
+    width: 90%;
+  }
+}
+@media screen and (max-width: 400px) {
+	.content{
+    width: 90vw;
+    margin: auto;
+  }
+  #page{
+    width: 90%;
+    margin: auto;
+    margin-bottom: 25vh;
+  } 
+  .content img{
+    width: 90%;
+  }
+  h1.title{
+    font-size: 1.6em;
+  }
 }
 </style>
 <style>
