@@ -1,4 +1,3 @@
-import { sortRoutes } from '@nuxt/utils'
 
 export default {
   target: 'server',
@@ -48,6 +47,6 @@ export default {
   build: {
   },
   serverMiddleware: [
-    { path: '/api/', handler: '~/serverMiddleware/update' }
+    { path: '/api/', handler: 'serverMiddleware/update' }
   ],
 }

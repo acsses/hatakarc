@@ -98,12 +98,13 @@ export default {
       link: [
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
-        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,500;1,500&display=swap' }
+        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@100&family=Source+Code+Pro:wght@300&family=Zen+Maru+Gothic:wght@300&display=swap' }
       ],
       meta: [
         { name: 'twitter:card', content: 'Summary_large_image'},
         { name: 'twitter:site', content: '@hataka799288335'},
         { name: 'twitter:title', content: this.title},
+        { name: 'twitter:text:title', content: this.title},
         { name: 'twitter:description', content: ''},
         { name: 'twitter:image', content: this.cover}
       ]
