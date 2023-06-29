@@ -11,7 +11,13 @@ export default {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      { name: 'format-detection', content: 'telephone=no' },
+      { name: 'twitter:card', content: 'Summary_large_image'},
+      { name: 'twitter:site', content: '@hataka799288335'},
+      { name: 'twitter:title', content: ''},
+      { name: 'twitter:text:title', content: ''},
+      { name: 'twitter:description', content: ''},
+      { name: 'twitter:image', content: ''}
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }

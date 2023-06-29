@@ -98,7 +98,7 @@ export default {
       link: [
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
-        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@100&family=Source+Code+Pro:wght@300&family=Zen+Maru+Gothic:wght@300&display=swap' }
+        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@100&family=Source+Code+Pro:wght@500&family=Zen+Maru+Gothic:wght@300&display=swap' }
       ],
       meta: [
         { name: 'twitter:card', content: 'Summary_large_image'},
